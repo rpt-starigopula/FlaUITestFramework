@@ -22,7 +22,7 @@ namespace FlaUIPoC.Base
             var processStartInfo = new ProcessStartInfo();
             processStartInfo.LoadUserProfile = false;
             processStartInfo.UseShellExecute = false;
-            processStartInfo.FileName = @"C:\\Automation\\Utility\\12_206_0_RC10\\RPS.Bootstrapper.exe";
+            processStartInfo.FileName = @"C:\\Automation\\Utility\\12_208_0_RC9\\RPS.Bootstrapper.exe";
             Application = Application.AttachOrLaunch(processStartInfo);
             WaitForApplicationLaunch();
         }
@@ -76,6 +76,79 @@ namespace FlaUIPoC.Base
                 }
             }
         }
+
+        /*
+        public bool CompareImageSectionWithThresold(string expectedImagePath, string actualImagePath, double matchThreshold = 95.0)
+        {
+            using (var expectedImage = SixLabors.ImageSharp.Image.Load<Rgba32>(expectedImagePath))
+            using (var actualImage = SixLabors.ImageSharp.Image.Load<Rgba32>(actualImagePath))
+            {
+                for (int y = 0; y <= actualImage.Height - expectedImage.Height; y++)
+                {
+                    for (int x = 0; x <= actualImage.Width - expectedImage.Width; x++)
+                    {
+                        var section = actualImage.Clone(ctx => ctx.Crop(new Rectangle(x, y, expectedImage.Width, expectedImage.Height)));
+                        if (ImagesAreSimilar(expectedImage, section, matchThreshold))
+                        {
+                             return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        */
+
+        public bool CompareImageSectionWithThreshold(string expectedImagePath, string actualImagePath, double matchThreshold = 95.0)
+        {
+            using (var expectedImage = SixLabors.ImageSharp.Image.Load<Rgba32>(expectedImagePath))
+            using (var actualImage = SixLabors.ImageSharp.Image.Load<Rgba32>(actualImagePath))
+            {
+                bool matchFound = false;
+                int maxY = actualImage.Height - expectedImage.Height;
+                int maxX = actualImage.Width - expectedImage.Width;
+
+                Parallel.For(0, maxY + 1, (y, stateY) =>
+                {
+                    Parallel.For(0, maxX + 1, (x, stateX) =>
+                    {
+                        var section = actualImage.Clone(ctx => ctx.Crop(new Rectangle(x, y, expectedImage.Width, expectedImage.Height)));
+                        if (ImagesAreSimilar(expectedImage, section, matchThreshold))
+                        {
+                            matchFound = true;
+                            stateY.Stop(); // Stop outer loop
+                            stateX.Stop(); // Stop inner loop
+                        }
+                    });
+                });
+
+                return matchFound;
+            }
+        }
+
+        private bool ImagesAreSimilar(Image<Rgba32> img1, Image<Rgba32> img2, double matchThreshold)
+        {
+            if (img1.Width != img2.Width || img1.Height != img2.Height)
+                return false;
+
+            int totalPixels = img1.Width * img1.Height;
+            int matchingPixels = 0;
+
+            for (int y = 0; y < img1.Height; y++)
+            {
+                for (int x = 0; x < img1.Width; x++)
+                {
+                    if (img1[x, y] == img2[x, y])
+                    {
+                        matchingPixels++;
+                    }
+                }
+            }
+
+            double matchPercentage = (matchingPixels / (double)totalPixels) * 100.0;
+            return matchPercentage >= matchThreshold;
+        }
+
 
         public bool CompareImageSection(string expectedImagePath, string actualImagePath)
         {

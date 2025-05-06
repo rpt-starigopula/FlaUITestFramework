@@ -7,6 +7,8 @@ using FlaUIPoC.Base;
 using FlaUIPoC.Reapit.Window.Reports;
 using FlaUITestProject.Reapit.Window.Property;
 using FlaUITestProject.Reapit.Window.OffersWindow;
+using FlaUIPoC.Reapit.Window.Company;
+using FlaUIPoC.Reapit.Window.Applicant;
 
 namespace FlaUIPoC.Reapit.Window.MainLoginWindow
 {
@@ -58,6 +60,17 @@ namespace FlaUIPoC.Reapit.Window.MainLoginWindow
             get { return _PropertyWindow ??= new PropertyWindow(Window); }
         }
 
+        public CompanyWindow CompanyWindow
+        {
+            get { return _CompanyWindow ??= new CompanyWindow(Window); }
+        }
+
+        public ApplicantWindow ApplicantWindow
+        {
+            get { return _ApplicantWindow ??= new ApplicantWindow(Window); }
+        }
+
+
         public OffersWindow OffersWindow
         {
             get { return _OffersWindow ??= new OffersWindow(Window); }
@@ -74,6 +87,8 @@ namespace FlaUIPoC.Reapit.Window.MainLoginWindow
         OffersFoundWindow _OfferFoundWindow;
         PropertyWindow _PropertyWindow;
         OffersWindow _OffersWindow;
+        CompanyWindow _CompanyWindow;
+        ApplicantWindow _ApplicantWindow;
 
         public MainBaseWindow(ApplicationLaunchSetUp app) : base(app, "MainWindow")
         {

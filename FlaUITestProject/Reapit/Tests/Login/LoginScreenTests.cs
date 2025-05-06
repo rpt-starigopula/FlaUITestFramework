@@ -1,4 +1,5 @@
 ﻿using FlaUIPoC.Reapit.Pages.Login;
+using FlaUITestProject.Base;
 
 
 namespace FlaUIPoC.Reapit.Tests.Login
@@ -30,17 +31,17 @@ namespace FlaUIPoC.Reapit.Tests.Login
         {
             var loginPage = MainWindow.LoginScreen;
             App.CaptureScreenshot("ActualScreenShot.png");
-            bool sectionExists = App.CompareImageSection("C:\\Users\\starigopula\\source\\FlaUITestFramework\\FlaUITestProject\\Reapit\\Screenshots\\LoginWindow\\ReapitLogo.png", "ActualScreenShot.png");
+            //bool sectionExists = App.CompareImageSection(Constants.ScreenshotBasePath + "\\LoginWindow\\ReapitLogo.png", "ActualScreenShot.png");
+            bool sectionExists = ImageComparisionHelper.CaptureScreenshotAndCheckTheExpectedImageSectionExistingWithThresholdUsingOpenCVSharp(Constants.ScreenshotBasePath + "\\LoginWindow\\ReapitLogo.png", 96);
             Console.WriteLine($"Expected image section exists in actual screenshot: {sectionExists}");
-            Assert.IsTrue(sectionExists, "The expected image section does not exist in the actual screenshot.");
+            Assert.IsTrue(sectionExists, "The expected image does not exist in the actual screenshot.");
         }
 
         [Test]
         public void CheckTheLoginScreenWithoutEnteringCredentails()
         {
             var loginPage = MainWindow.LoginScreen;
-            App.CaptureScreenshot("ActualScreenShot.png");
-            bool sectionExists = App.CompareImageSection("C:\\Users\\starigopula\\source\\FlaUITestFramework\\FlaUITestProject\\Reapit\\Screenshots\\LoginWindow\\LoginCredentails.png", "ActualScreenShot.png");
+            bool sectionExists = ImageComparisionHelper.CaptureScreenshotAndCheckTheExpectedImageSectionExistingWithThresholdUsingOpenCVSharp(Constants.ScreenshotBasePath + "\\LoginWindow\\LoginCredentails.png", 96);
             Console.WriteLine($"Expected image section exists in actual screenshot: {sectionExists}");
             Assert.IsTrue(sectionExists, "The expected image section does not exist in the actual screenshot.");
         }

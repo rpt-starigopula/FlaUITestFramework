@@ -27,10 +27,13 @@ namespace FlaUIPoC.Reapit.Window.Login
                 case "Dairy":
                     break;
                 case "Applicant":
+                    AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_btnApplicant");
                     break;
                 case "Property":
+                    AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_btnProperty");
                     break;
                 case "Lettings":
+                    AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_btnLettings");
                     break;
                 case "Block":
                     AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_btnEstate");
@@ -39,6 +42,7 @@ namespace FlaUIPoC.Reapit.Window.Login
                     AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_btnContacts");
                     break;
                 case "Company":
+                    AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_btnCompanies");
                     break;
                 case "Reports":
                     AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_btnReports");

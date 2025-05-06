@@ -11,11 +11,8 @@
 
   <ItemGroup>
     <Compile Remove="Reapit\Window\Combined\**" />
-    <Compile Remove="Reapit\Window\Company\**" />
     <EmbeddedResource Remove="Reapit\Window\Combined\**" />
-    <EmbeddedResource Remove="Reapit\Window\Company\**" />
     <None Remove="Reapit\Window\Combined\**" />
-    <None Remove="Reapit\Window\Company\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +22,11 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
+    <PackageReference Include="NUnit.ConsoleRunner" Version="3.20.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="OpenCvSharp4" Version="4.10.0.20241108" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.0.20241108" />
+    <PackageReference Include="OpenCvSharp4Extern" Version="1.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
   </ItemGroup>
 
@@ -35,6 +36,18 @@
 
   <ItemGroup>
     <Folder Include="Reapit\Screenshots\LoginWindow\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Reapit\Screenshots\ApplicantScreen\ApplicantScreenWithDetails.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Reapit\Screenshots\LoginWindow\LoginCredentails.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Reapit\Screenshots\LoginWindow\ReapitLogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

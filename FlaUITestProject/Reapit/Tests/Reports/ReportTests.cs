@@ -1,12 +1,4 @@
-﻿using FlaUI.Core.Tools;
-using NUnit.Framework;
-using System.Net;
-using System.Reflection;
-using System.Windows.Forms;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
-
-namespace FlaUIPoC.Reapit.Tests.Reports
+﻿namespace FlaUIPoC.Reapit.Tests.Reports
 {
     internal class ReportTests : BaseSetup
     {
@@ -14,9 +6,6 @@ namespace FlaUIPoC.Reapit.Tests.Reports
         [Test]
         public void RPT_33_Run_the_Offers_Report_and_open_a_result_from_the_report_output()
         {
-            DateTime startTime = DateTime.Now;
-            Console.WriteLine("Start time : " + startTime);
-
             // step	1. Given I am logged in as Test User	AC is open with the Home screen showing
             var loginPage = MainWindow.LoginScreen;
             loginPage.EnterValidCredentialsAndLogin();
@@ -76,14 +65,6 @@ namespace FlaUIPoC.Reapit.Tests.Reports
             //11.And I click the Exit button Then the Offer Reporting screen closes And I return to the Home screen
             offerReporting.ClickClose();
             homeScreen.ClickCloseButton();
-            DateTime endTime = DateTime.Now;
-            Console.WriteLine("EndTime :" + endTime);
-            var duration = endTime - startTime;
-            Console.WriteLine("Duration  :" + duration);        			
-
-
-  					
-               
         }
     }
 }

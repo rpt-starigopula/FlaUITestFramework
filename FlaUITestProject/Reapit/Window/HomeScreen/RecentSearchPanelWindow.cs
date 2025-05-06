@@ -34,7 +34,18 @@ namespace FlaUIPoC.Reapit.Window.HomeScreen
             //AutomationHelper.ClickButton(_window, IdentifyElement.byId, "aid_txtActivityDetail_Contact_0");            
         }
 
-        public void CheckRecentRecordInSearchPanelIs(string expectedName)
+        public void ClickOnRecentUniversalSearchPanel()
+        {
+            AutomationHelper.MoveMouseToElementAndLeftClick(_window, IdentifyElement.byId, "aid_txtActivityDetail_UniversalSearchControl_Contact_0");
+        }
+
+        public void ClickOnRecentRecordInApplicantSearchPanel()
+        {
+           AutomationHelper.MoveMouseToElementAndLeftClick(_window, IdentifyElement.byId, "aid_txtActivityDetail_UniversalSearchControl_Applicant_0");
+        }
+
+
+        public void CheckRecentRecordInContactSearchPanelIs(string expectedName)
         {
             var getRecentContactNameFromSearchPanel = AutomationHelper.GetTextUsingElementNameProperty(_window, IdentifyElement.byId, "aid_txtActivityDetail_Contact_0");
             Assert.IsTrue(string.Equals(getRecentContactNameFromSearchPanel, expectedName, StringComparison.OrdinalIgnoreCase));

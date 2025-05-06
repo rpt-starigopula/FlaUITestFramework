@@ -1,4 +1,6 @@
-﻿namespace FlaUIPoC.Reapit.Tests.Contacts
+﻿using FlaUITestProject.Base;
+
+namespace FlaUIPoC.Reapit.Tests.Contacts
 {
     internal class ContactTests : BaseSetup
     {
@@ -6,9 +8,6 @@
         [Test]
         public void UsingTheContactSearchToAddANewContactRecordToTheSystem()
         {
-            DateTime startTime = DateTime.Now;
-            Console.WriteLine("Start time : " + startTime);
-
             // step	1. Given I am logged in as Test User	AC is open with the Home screen showing
             var loginPage = MainWindow.LoginScreen;
             loginPage.EnterValidCredentialsAndLogin();
@@ -60,7 +59,7 @@
             addingNewContactScreen.ClickExit();
             //step	20. And I click the Contact menu button	Then the Contact menu opens showing the Search paneAnd the pane lists recently visited Contact records with the newly added record at the top							
             homeScreen.ClickMainMenuItem("Contact");
-            searchPanel.CheckRecentRecordInSearchPanelIs($"Mr {firstName} {surname}");
+            searchPanel.CheckRecentRecordInContactSearchPanelIs($"Mr {firstName} {surname}");
             searchPanel.ClickOnRecentContact();
             //step	21. And I click the newly added Contact record	Then the newly added Contact will reopenAnd all information entered in previous steps shows in the record							
             addingNewContactScreen.CheckTheMobileNumber(mobileNum);
@@ -75,11 +74,55 @@
             // step	22. And I click the Exit button	Then the Contact screen will closeAnd AC will not throw an errorAnd I will not be prompted to SaveAnd I return to the Home screen	
             addingNewContactScreen.ClickExit();
             homeScreen.ClickCloseButton();
-            DateTime endTime = DateTime.Now;
-            Console.WriteLine("EndTime :" + endTime);
-            var duration = endTime - startTime;
-            Console.WriteLine("Duration  :" + duration);
         }
+
+        [Test]
+        public void UsingTheExistingContactRecordAndCheckTheDisplayAndContentIsConsistentUsingScreenshot_ImageSharp()
+        {           
+            // step	1. Given I am logged in as Test User	AC is open with the Home screen showing
+            var loginPage = MainWindow.LoginScreen;
+            loginPage.EnterValidCredentialsAndLogin();
+            //2.And I click the Contact menu button  Then the Contact menu opens showing the Search pane And the pane lists recently visited Contact records MainScreen  SubScreen
+            var homeScreen = MainWindow.HomeScreen;
+            homeScreen.ClickMainMenuItem("Contact");
+            //step	3. And I type <Surname> into the search field	Then the search field populates with the typed text And the 'Advanced Search' button displays and is active And the '+ Add Contact' button displays and is inactive							
+            //step	4. And I press the Enter key	Then AC performs a search using the typed search text And search results are listed under 'Contacts' and 'Archived Contacts' headings And the '+ Add Contact' button is now active window keys
+            var searchPanel = MainWindow.RecentSearchPanel;
+            //step 5. And I search for a record that exist in data back-up
+            searchPanel.EnterTextAndSearch("Arthur Bell");
+            searchPanel.ClickOnRecentUniversalSearchPanel();
+            //step	6. And I open that contact record and checking the green tick via auto id and template using screenshot
+            var addingNewContactScreen = MainWindow.AddingNewContactWindow;
+            addingNewContactScreen.CheckGreenTickEnabled();
+            //App.CaptureScreenshot("ContactScreenWithDetails.png");
+            string tempFilePath = Path.Combine(Path.GetTempPath(), "ActualScreenShot.png");
+            Console.WriteLine("The temp path is : "+tempFilePath);
+            App.CaptureScreenshot(tempFilePath);
+            bool sectionExists = App.CompareImageSectionWithThreshold(Constants.ScreenshotBasePath + "\\ContactScreen\\ContactScreenWithDetails.png", tempFilePath,95);
+            Assert.IsTrue(sectionExists, "The expected image does not exist in the actual screenshot.");
+        }
+
+        [Test]
+        public void UsingTheExistingContactRecordAndCheckTheDisplayAndContentIsConsistentUsingScreenshot_OpenCvSharp()
+            {
+            // step	1. Given I am logged in as Test User	AC is open with the Home screen showing
+            var loginPage = MainWindow.LoginScreen;
+            loginPage.EnterValidCredentialsAndLogin();
+            //2.And I click the Contact menu button  Then the Contact menu opens showing the Search pane And the pane lists recently visited Contact records MainScreen  SubScreen
+            var homeScreen = MainWindow.HomeScreen;
+            homeScreen.ClickMainMenuItem("Contact");
+            //step	3. And I type <Surname> into the search field	Then the search field populates with the typed text And the 'Advanced Search' button displays and is active And the '+ Add Contact' button displays and is inactive							
+            //step	4. And I press the Enter key	Then AC performs a search using the typed search text And search results are listed under 'Contacts' and 'Archived Contacts' headings And the '+ Add Contact' button is now active window keys
+            var searchPanel = MainWindow.RecentSearchPanel;
+            //step 5. And I search for a record that exist in data back-up
+            searchPanel.EnterTextAndSearch("Arthur Bell");
+            searchPanel.ClickOnRecentUniversalSearchPanel();
+            //step	6. And I open that contact record and checking the green tick via auto id and template using screenshot
+            var addingNewContactScreen = MainWindow.AddingNewContactWindow;
+            addingNewContactScreen.CheckGreenTickEnabled();
+            bool sectionExists = ImageComparisionHelper.CaptureScreenshotAndCheckTheExpectedImageSectionExistingWithThresholdUsingOpenCVSharp(Constants.ScreenshotBasePath + "\\ContactScreen\\ContactScreenWithDetails.png", 98);
+            Assert.IsTrue(sectionExists, "The expected image does not exist in the actual screenshot.");
+            }
 
         [Test]
         public void CreateABasicContact()
